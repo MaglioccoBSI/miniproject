@@ -1,0 +1,31 @@
+
+- hosts: ci
+  become: yes
+  tasks:
+    - name: Install packages
+      apt:
+        name:
+          - docker.io
+          - unzip
+          - wget
+          - curl
+        state: present
+        update_cache: yes
+
+    - name: Install Jenkins
+      apt:
+        name: jenkins
+        state: present
+
+    - name: Add jenkins to sudo group
+      user:
+        name: jenkins
+        groups: sudo
+        append: yes
+
+    - name: Add user to docker group
+      user:
+        name: ubuntu
+        groups: docker
+        append: yes
+
